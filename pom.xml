@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>br.com.rickicollab</groupId>
-	<artifactId>e-diarista</artifactId>
+	<artifactId>ediarista</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>e-diarista</name>
 	<description>Demo project for Spring Boot</description>
@@ -43,11 +43,11 @@
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 
-		<dependência>
+		<dependency>
 			<groupId>org.webjars</groupId>
 			<artifactId>AdminLTE</artifactId>
-			<versão>3.2.0</versão>
-		</dependência>
+			<version>3.2.0</version>
+		</dependency>
 
 		<dependency>
 			<groupId>org.webjars</groupId>
