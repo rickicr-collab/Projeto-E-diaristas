@@ -1,4 +1,4 @@
-package br.com.rickicollab.e_diarista;
+package br.com.rickicollab.ediaristas;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
