@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>App Name | <th:block th:include="${title}"> Dashboard </th:block>
+  <title>App Name | <th:block th:insert="${title}"> Dashboard </th:block>
   </title>
 
   <!-- Google Font: Source Sans Pro -->
@@ -45,7 +45,7 @@
     <div class="content-wrapper">
       <!-- Main content -->
       <section class="content">
-        <div class="container-fluid pt-3" th:include="${content}"></div>
+        <div class="container-fluid pt-3" th:insert="${content}"></div>
       </section>
       <!-- /.content -->
     </div>
