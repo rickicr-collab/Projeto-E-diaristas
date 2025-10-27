@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 public class ServicoForm {
 
     @NotNull
-    @Size(min = 3, max = 50)
+    @Size(min = 3, max = 50, message="minimo 3 com máximo 50 caracteres")
     private String nome;
 
     @NotNull
