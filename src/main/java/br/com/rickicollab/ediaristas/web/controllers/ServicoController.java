@@ -10,8 +10,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.com.rickicollab.ediaristas.core.enums.Icone;
+import br.com.rickicollab.ediaristas.web.dto.FlashMessage;
 import br.com.rickicollab.ediaristas.web.dto.ServicoForm;
 import br.com.rickicollab.ediaristas.web.services.WebServicoService;
 import jakarta.validation.Valid;
@@ -46,30 +48,33 @@ public class ServicoController {
     }
 
     @PostMapping("/cadastrar")
-    public String cadastrar(@Valid @ModelAttribute("form") ServicoForm form, BindingResult result, Model model) {
+    public String cadastrar(@Valid @ModelAttribute("form") ServicoForm form, BindingResult result, Model model, RedirectAttributes attrs) {
         if (result.hasErrors()) {
             model.addAttribute("icone", Icone.values());
             return "admin/servico/form";
         }
         webServicoService.cadastrar(form);
+        attrs.addFlashAttribute("alert", new FlashMessage("alert-success", "Serviço cadastrado com sucesso!"));
         return "redirect:/admin/servicos";
     }
 
     @GetMapping("{id}/excluir")
-    public String excluir(@PathVariable long id) {
+    public String excluir(@PathVariable long id, RedirectAttributes attrs) {
         webServicoService.excluirPorId(id);
+        attrs.addFlashAttribute("alert", new FlashMessage("alert-success", "Serviço excluido com sucesso!"));
         return "redirect:/admin/servicos";
     }
 
     @PostMapping("/{id}/editar")
     public String editar(@PathVariable long id, @Valid @ModelAttribute("form") ServicoForm form, BindingResult result,
-            Model model) {
+            Model model, RedirectAttributes attrs) {
         if (result.hasErrors()) {
             model.addAttribute("form", form);
             model.addAttribute("icone", Icone.values());
             return "admin/servico/form";
         }
         webServicoService.editar(form, id);
+        attrs.addFlashAttribute("alert", new FlashMessage("alert-success", "Serviço Atualizado com sucesso!"));
         return "redirect:/admin/servicos";
     }
 
