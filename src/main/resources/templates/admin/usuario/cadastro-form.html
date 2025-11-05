@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{adminlte3 :: layout(~{::title}, ~{::main}, _, _)}">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario de Usuario</title>
+</head>
+
+<body>
+    <main>
+        <div class="row">
+            <div class="col">
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <div class="card-title">Formulario de Usuario</div>
+                    </div>
+                    <div class="card-body">
+                        <form method="post" th:object="${cadastroForm}">
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label for="nomeCompleto">Nome</label>
+                                        <input type="text" class="form-control" th:field="*{nomeCompleto}">
+                                        <div class="text-danger" th:errors="*{nomeCompleto}"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label for="email">Email</label>
+                                        <input type="email" class="form-control" th:field="*{email}">
+                                        <div class="text-danger" th:errors="*{email}"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 col-sm-12">
+                                    <div class="form-group">
+                                        <label for="senha">Senha</label>
+                                        <input type="password" class="form-control" th:field="*{senha}">
+                                        <div class="text-danger" th:errors="*{senha}"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 col-sm-12">
+                                    <div class="form-group">
+                                        <label for="confirmacaoSenha">Confirmação de Senha</label>
+                                        <input type="password" class="form-control" th:field="*{confirmacaoSenha}">
+                                        <div class="text-danger" th:errors="*{confirmacaoSenha}"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-success">Salvar</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>
