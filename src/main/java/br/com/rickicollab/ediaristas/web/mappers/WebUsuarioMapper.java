@@ -6,6 +6,8 @@ import org.mapstruct.factory.Mappers;
 
 import br.com.rickicollab.ediaristas.core.models.Usuario;
 import br.com.rickicollab.ediaristas.web.dto.UsuarioCadastroForm;
+import br.com.rickicollab.ediaristas.web.dto.UsuarioEdicaoForm;
+
 
 @Mapper(componentModel = "spring")
 public interface WebUsuarioMapper {
@@ -15,5 +17,12 @@ public interface WebUsuarioMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "tipoUsuario", ignore = true)
     Usuario toModel(UsuarioCadastroForm form);
+
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "senha", ignore = true)
+    @Mapping(target = "tipoUsuario", ignore = true)
+    Usuario toModel(UsuarioEdicaoForm form);
+
+    UsuarioEdicaoForm toForm(Usuario model);
 
 }
