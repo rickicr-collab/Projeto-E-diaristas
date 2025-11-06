@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import br.com.rickicollab.ediaristas.core.exceptions.ValidacaoException;
 import br.com.rickicollab.ediaristas.web.dto.FlashMessage;
 import br.com.rickicollab.ediaristas.web.dto.UsuarioCadastroForm;
 import br.com.rickicollab.ediaristas.web.dto.UsuarioEdicaoForm;
@@ -54,9 +55,13 @@ public class UsuarioController {
         if(result.hasErrors()){
             return "admin/usuario/cadastro-form";
         }
-
-        webUsuarioService.cadastrar(cadastroForm);
-        attrs.addFlashAttribute("alert", new FlashMessage("alert-sucess", "Usuario cadastrado com sucesso!"));
+        try {
+            webUsuarioService.cadastrar(cadastroForm);
+            attrs.addFlashAttribute("alert", new FlashMessage("alert-sucess", "Usuario cadastrado com sucesso!"));
+        } catch (ValidacaoException e) {
+            result.addError(e.getFieldError());
+            return "admin/usuario/cadastro-form";
+        }
         return "redirect:/admin/usuarios";
     }
 
@@ -75,8 +80,13 @@ public class UsuarioController {
         if(result.hasErrors()){
             return"admin/usuario/edicao-form";
         }
-        webUsuarioService.editar(edicaoForm, id);
-        attrs.addFlashAttribute("alert", new FlashMessage("alert-success", "Usuario editado com sucesso !"));
+        try {
+            webUsuarioService.editar(edicaoForm, id);
+            attrs.addFlashAttribute("alert", new FlashMessage("alert-success", "Usuario editado com sucesso !"));
+        } catch (ValidacaoException e) {
+           result.addError(e.getFieldError());
+           return "admin/usuario/edicao-form";
+        }
         return "redirect:/admin/usuarios";
     }
     
