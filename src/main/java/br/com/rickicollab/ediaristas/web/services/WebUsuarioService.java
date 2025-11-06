@@ -25,22 +25,21 @@ public class WebUsuarioService {
     @Autowired
     private WebUsuarioMapper mapper;
 
-
-    public List<Usuario> buscarTodos(){
+    public List<Usuario> buscarTodos() {
         var lista = repository.findAll();
         return lista;
     }
 
-    
-    public Usuario cadastrar(UsuarioCadastroForm form){
+    public Usuario cadastrar(UsuarioCadastroForm form) {
         var senha = form.getSenha();
         var confirmarSenha = form.getConfirmacaoSenha();
-        if(!senha.equals(confirmarSenha)){
+        if (!senha.equals(confirmarSenha)) {
             var message = "os campos de senha não conferem !";
-            var fieldError = new FieldError(form.getClass().getName(), "confirmacaoSenha", form.getConfirmacaoSenha(), false, null, null, message);
+            var fieldError = new FieldError(form.getClass().getName(), "confirmacaoSenha", form.getConfirmacaoSenha(),
+                    false, null, null, message);
             throw new SenhasNaoConferemException(message, fieldError);
         }
-       
+
         var model = mapper.toModel(form);
         model.setTipoUsuario(TipoUsuario.ADMIN);
         validacaoCamposUnicos(model);
@@ -48,25 +47,25 @@ public class WebUsuarioService {
         return usuario;
     }
 
-    public Usuario buscarPorId(long id){
+    public Usuario buscarPorId(long id) {
         var message = String.format("Usuario com ID %d não encontrado: ", id);
         var buscarId = repository.findById(id).orElseThrow(() -> new UsuarioNaoEncontradoException(message));
         return buscarId;
-        
+
     }
 
-    public UsuarioEdicaoForm buscarFormPorId(long id){
+    public UsuarioEdicaoForm buscarFormPorId(long id) {
         var usuario = buscarPorId(id);
         var usuarioForm = mapper.toForm(usuario);
         return usuarioForm;
     }
 
-    public void excluirPorId(long id){
+    public void excluirPorId(long id) {
         var usuarioBuscado = buscarPorId(id);
         repository.delete(usuarioBuscado);
-    }   
+    }
 
-    public Usuario editar(UsuarioEdicaoForm form, long id){
+    public Usuario editar(UsuarioEdicaoForm form, long id) {
         var userBuscar = buscarPorId(id);
         var model = mapper.toModel(form);
         model.setId(userBuscar.getId());
@@ -77,13 +76,11 @@ public class WebUsuarioService {
         return userUpdate;
     }
 
-    private void validacaoCamposUnicos(Usuario usuario){
-        repository.findByEmail(usuario.getEmail()).ifPresent((usuarioEncontrado) ->{
-            if(!usuarioEncontrado.equals(usuario)){
-                var message = "O email já existe cadastrado a outro usuário!";
-                var fieldError = new FieldError(usuario.getClass().getName(), "email", usuario.getEmail(), false, null, null, message);
-                throw new UsuarioJaCadastradoException(message, fieldError);
-            }
-        });
+    private void validacaoCamposUnicos(Usuario usuario) {      
+        if (repository.isEmailJaCadastrado(usuario.getEmail(), usuario.getId())) {
+            var message = "O email já existe cadastrado a outro usuário!";
+            var fieldError = new FieldError(usuario.getClass().getName(), "email", usuario.getEmail(), false, null, null, message);
+            throw new UsuarioJaCadastradoException(message, fieldError);
+        }
     }
 }
