@@ -2,7 +2,7 @@ package br.com.rickicollab.ediaristas.web.services;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.FieldError;
 
@@ -19,28 +19,37 @@ import br.com.rickicollab.ediaristas.web.mappers.WebUsuarioMapper;
 @Service
 public class WebUsuarioService {
 
-    @Autowired
-    private UsuarioRepository repository;
+   
+    private final UsuarioRepository repository;
+    private final WebUsuarioMapper mapper;
+    private final PasswordEncoder passwordEncoder;
 
-    @Autowired
-    private WebUsuarioMapper mapper;
+    
+
+    public WebUsuarioService(UsuarioRepository repository, WebUsuarioMapper mapper, PasswordEncoder passwordEncoder) {
+        this.repository = repository;
+        this.mapper = mapper;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     public List<Usuario> buscarTodos() {
-        var lista = repository.findAll();
-        return lista;
+        return repository.findAll();
+       
     }
 
     public Usuario cadastrar(UsuarioCadastroForm form) {
         var senha = form.getSenha();
         var confirmarSenha = form.getConfirmacaoSenha();
         if (!senha.equals(confirmarSenha)) {
-            var message = "os campos de senha não conferem !";
+            var message = "os campos de senha não conferem!";
             var fieldError = new FieldError(form.getClass().getName(), "confirmacaoSenha", form.getConfirmacaoSenha(),
                     false, null, null, message);
             throw new SenhasNaoConferemException(message, fieldError);
         }
 
         var model = mapper.toModel(form);
+        var senhaHash = passwordEncoder.encode(model.getSenha());
+        model.setSenha(senhaHash);
         model.setTipoUsuario(TipoUsuario.ADMIN);
         validacaoCamposUnicos(model);
         var usuario = repository.save(model);
@@ -48,7 +57,7 @@ public class WebUsuarioService {
     }
 
     public Usuario buscarPorId(long id) {
-        var message = String.format("Usuario com ID %d não encontrado: ", id);
+        var message = String.format("Usuario com ID %d não encontrado.", id);
         var buscarId = repository.findById(id).orElseThrow(() -> new UsuarioNaoEncontradoException(message));
         return buscarId;
 
@@ -76,10 +85,11 @@ public class WebUsuarioService {
         return userUpdate;
     }
 
-    private void validacaoCamposUnicos(Usuario usuario) {      
+    private void validacaoCamposUnicos(Usuario usuario) {
         if (repository.isEmailJaCadastrado(usuario.getEmail(), usuario.getId())) {
             var message = "O email já existe cadastrado a outro usuário!";
-            var fieldError = new FieldError(usuario.getClass().getName(), "email", usuario.getEmail(), false, null, null, message);
+            var fieldError = new FieldError(usuario.getClass().getName(), "email", usuario.getEmail(), false, null,
+                    null, message);
             throw new UsuarioJaCadastradoException(message, fieldError);
         }
     }
