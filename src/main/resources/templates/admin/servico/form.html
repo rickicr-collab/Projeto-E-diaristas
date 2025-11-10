@@ -17,6 +17,7 @@
                     </div>
                     <div class="card-body">
                         <form method="post" th:object="${form}">
+                            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
                             <div class="row">
                                 <div class="col-md-6 col-sm-12">
                                     <div class="form-group">
@@ -36,14 +37,14 @@
                                     <div class="form-group">
                                         <label for="qtdHoras">Quantidade Horas</label>
                                         <input type="number" class="form-control" th:field="*{qtdHoras}">
-                                       <div class="text-danger" th:errors="*{qtdHoras}"></div>
+                                        <div class="text-danger" th:errors="*{qtdHoras}"></div>
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-sm-12">
                                     <div class="form-group">
                                         <label for="porcentagemComissao">Porcentagem Comissão</label>
                                         <input type="text" class="form-control money" th:field="*{porcentagemComissao}">
-                                       <div class="text-danger" th:errors="*{porcentagemComissao}"></div>
+                                        <div class="text-danger" th:errors="*{porcentagemComissao}"></div>
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-sm-12">
@@ -71,14 +72,14 @@
                                     <div class="form-group">
                                         <label for="valorSala">Valor Sala</label>
                                         <input type="text" class="form-control money" th:field="*{valorSala}">
-                                    <div class="text-danger" th:errors="*{valorSala}"></div>
+                                        <div class="text-danger" th:errors="*{valorSala}"></div>
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-sm-12">
                                     <div class="form-group">
                                         <label for="horasBanheiro">Horas Banheiro</label>
                                         <input type="number" class="form-control" th:field="*{horasBanheiro}">
-                                      <div class="text-danger" th:errors="*{horasBanheiro}"></div>
+                                        <div class="text-danger" th:errors="*{horasBanheiro}"></div>
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-sm-12">
@@ -99,7 +100,7 @@
                                     <div class="form-group">
                                         <label for="valorCozinha">Valor Cozinha</label>
                                         <input type="text" class="form-control money" th:field="*{valorCozinha}">
-                                       <div class="text-danger" th:errors="*{valorCozinha}"></div>
+                                        <div class="text-danger" th:errors="*{valorCozinha}"></div>
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-sm-12">
@@ -113,21 +114,21 @@
                                     <div class="form-group">
                                         <label for="valorQuintal">Valor Quintal</label>
                                         <input type="text" class="form-control money" th:field="*{valorQuintal}">
-                                       <div class="text-danger" th:errors="*{valorQuintal}"></div>
+                                        <div class="text-danger" th:errors="*{valorQuintal}"></div>
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-sm-12">
                                     <div class="form-group">
                                         <label for="horasOutros">Horas Outros</label>
                                         <input type="number" class="form-control" th:field="*{horasOutros}">
-                                       <div class="text-danger" th:errors="*{horasOutros}"></div>
+                                        <div class="text-danger" th:errors="*{horasOutros}"></div>
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-sm-12">
                                     <div class="form-group">
                                         <label for="valorOutros">Valor Outros</label>
                                         <input type="text" class="form-control money" th:field="*{valorOutros}">
-                                      <div class="text-danger" th:errors="*{valorOutros}"></div>
+                                        <div class="text-danger" th:errors="*{valorOutros}"></div>
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-sm-12">
@@ -158,10 +159,11 @@
     <th:block th:fragment="scripts">
         <script th:src="@{/webjars/jquery-mask-plugin/dist/jquery.mask.min.js}"></script>
         <script>
-            $(document).ready(function() {
-                 $('.money').mask("#.##0,00", {reverse: true});
+            $(document).ready(function () {
+                $('.money').mask("#.##0,00", { reverse: true });
             });
         </script>
     </th:block>
 </body>
+
 </html>
