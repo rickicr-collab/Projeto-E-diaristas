@@ -16,8 +16,8 @@
                         <div class="card-title">Formulario de Serviço</div>
                     </div>
                     <div class="card-body">
-                        <form method="post" th:object="${form}">
-                            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                        <form method="post" th:object="${form}" th:with="csrf=_csrf">
+                            <input type="hidden" th:if="${csrf != null}" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
                             <div class="row">
                                 <div class="col-md-6 col-sm-12">
                                     <div class="form-group">
