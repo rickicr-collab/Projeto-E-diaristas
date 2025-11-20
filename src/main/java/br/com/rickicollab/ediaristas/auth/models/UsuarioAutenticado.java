@@ -14,11 +14,11 @@ import lombok.Getter;
 @AllArgsConstructor
 public class UsuarioAutenticado implements UserDetails {
 
-    private Usuario usuario;
+    private final Usuario usuario;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return AuthorityUtils.createAuthorityList(usuario.getTipoUsuario().toString());
+        return AuthorityUtils.createAuthorityList("ROLE_" + usuario.getTipoUsuario().toString());
         
     }
 
