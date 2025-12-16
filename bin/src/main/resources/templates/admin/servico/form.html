@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{adminlte3 :: layout(~{::title}, ~{::main}, _, ~{::scripts})}">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario de Serviço</title>
+</head>
+
+<body>
+    <main>
+        <div class="row">
+            <div class="col">
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <div class="card-title">Formulario de Serviço</div>
+                    </div>
+                    <div class="card-body">
+                        <form method="post" th:object="${form}" th:with="csrf=_csrf">
+                            <input type="hidden" th:if="${csrf != null}" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                            <div class="row">
+                                <div class="col-md-6 col-sm-12">
+                                    <div class="form-group">
+                                        <label for="nome">Nome</label>
+                                        <input type="text" class="form-control" th:field="*{nome}">
+                                        <div class="text-danger" th:errors="*{nome}"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-sm-12">
+                                    <div class="form-group">
+                                        <label for="valorMinimo">Valor Minimo</label>
+                                        <input type="text" class="form-control money" th:field="*{valorMinimo}">
+                                        <div class="text-danger" th:errors="*{valorMinimo}"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-sm-12">
+                                    <div class="form-group">
+                                        <label for="qtdHoras">Quantidade Horas</label>
+                                        <input type="number" class="form-control" th:field="*{qtdHoras}">
+                                        <div class="text-danger" th:errors="*{qtdHoras}"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-sm-12">
+                                    <div class="form-group">
+                                        <label for="porcentagemComissao">Porcentagem Comissão</label>
+                                        <input type="text" class="form-control money" th:field="*{porcentagemComissao}">
+                                        <div class="text-danger" th:errors="*{porcentagemComissao}"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-sm-12">
+                                    <div class="form-group">
+                                        <label for="horasQuarto">Horas Quarto</label>
+                                        <input type="number" class="form-control" th:field="*{horasQuarto}">
+                                        <div class="text-danger" th:errors="*{horasQuarto}"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-sm-12">
+                                    <div class="form-group">
+                                        <label for="valorQuarto">Valor Quarto</label>
+                                        <input type="text" class="form-control money" th:field="*{valorQuarto}">
+                                        <div class="text-danger" th:errors="*{valorQuarto}"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-sm-12">
+                                    <div class="form-group">
+                                        <label for="horasSala">Horas Sala</label>
+                                        <input type="number" class="form-control" th:field="*{horasSala}">
+                                        <div class="text-danger" th:errors="*{horasSala}"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-sm-12">
+                                    <div class="form-group">
+                                        <label for="valorSala">Valor Sala</label>
+                                        <input type="text" class="form-control money" th:field="*{valorSala}">
+                                        <div class="text-danger" th:errors="*{valorSala}"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-sm-12">
+                                    <div class="form-group">
+                                        <label for="horasBanheiro">Horas Banheiro</label>
+                                        <input type="number" class="form-control" th:field="*{horasBanheiro}">
+                                        <div class="text-danger" th:errors="*{horasBanheiro}"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-sm-12">
+                                    <div class="form-group">
+                                        <label for="valorBanheiro">Valor Banheiro</label>
+                                        <input type="text" class="form-control money" th:field="*{valorBanheiro}">
+                                        <div class="text-danger" th:errors="*{valorBanheiro}"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-sm-12">
+                                    <div class="form-group">
+                                        <label for="horasCozinha">Horas Cozinha</label>
+                                        <input type="number" class="form-control" th:field="*{horasCozinha}">
+                                        <div class="text-danger" th:errors="*{horasCozinha}"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-sm-12">
+                                    <div class="form-group">
+                                        <label for="valorCozinha">Valor Cozinha</label>
+                                        <input type="text" class="form-control money" th:field="*{valorCozinha}">
+                                        <div class="text-danger" th:errors="*{valorCozinha}"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-sm-12">
+                                    <div class="form-group">
+                                        <label for="horasQuintal">Horas Quintal</label>
+                                        <input type="number" class="form-control" th:field="*{horasQuintal}">
+                                        <div class="text-danger" th:errors="*{horasQuintal}"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-sm-12">
+                                    <div class="form-group">
+                                        <label for="valorQuintal">Valor Quintal</label>
+                                        <input type="text" class="form-control money" th:field="*{valorQuintal}">
+                                        <div class="text-danger" th:errors="*{valorQuintal}"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-sm-12">
+                                    <div class="form-group">
+                                        <label for="horasOutros">Horas Outros</label>
+                                        <input type="number" class="form-control" th:field="*{horasOutros}">
+                                        <div class="text-danger" th:errors="*{horasOutros}"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-sm-12">
+                                    <div class="form-group">
+                                        <label for="valorOutros">Valor Outros</label>
+                                        <input type="text" class="form-control money" th:field="*{valorOutros}">
+                                        <div class="text-danger" th:errors="*{valorOutros}"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-sm-12">
+                                    <div class="form-group">
+                                        <label for="icone">Icone</label>
+                                        <select class="form-control" th:field="*{icone}">
+                                            <option th:each="icone: ${icones}" th:text="${icone.nome}"
+                                                th:value="${icone}"></option>
+                                        </select>
+                                        <div class="text-danger" th:errors="*{icone}"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-sm-12">
+                                    <div class="form-group">
+                                        <label for="posicao">Posicão</label>
+                                        <input type="number" class="form-control" th:field="*{posicao}">
+                                        <div class="text-danger" th:errors="*{posicao}"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-success">Salvar</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <th:block th:fragment="scripts">
+        <script th:src="@{/webjars/jquery-mask-plugin/dist/jquery.mask.min.js}"></script>
+        <script>
+            $(document).ready(function () {
+                $('.money').mask("#.##0,00", { reverse: true });
+            });
+        </script>
+    </th:block>
+</body>
+
+</html>
