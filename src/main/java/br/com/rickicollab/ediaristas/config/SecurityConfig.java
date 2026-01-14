@@ -52,11 +52,17 @@ public class SecurityConfig {
                 .formLogin(form -> form
                         .loginPage("/admin/login")
                         .loginProcessingUrl("/admin/login")
+                        .usernameParameter("email")
+                        .passwordParameter("senha")
                         .successHandler(successHandler())
                         .failureUrl("/admin/login?error=true")
                         .permitAll())
                 .logout(logout -> logout
-                        .logoutUrl("/admin/logout"));
+                        .logoutUrl("/admin/logout")
+                        .logoutSuccessUrl("/admin/login?logout=true")
+                        .invalidateHttpSession(true)
+                        .deleteCookies("JSESSIONID")
+                        .permitAll());
 
         // O segredo: chamar build() retorna SecurityFilterChain
         return http.build();
