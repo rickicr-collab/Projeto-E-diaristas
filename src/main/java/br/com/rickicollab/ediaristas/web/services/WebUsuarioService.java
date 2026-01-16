@@ -16,6 +16,7 @@ import br.com.rickicollab.ediaristas.core.repositories.UsuarioRepository;
 import br.com.rickicollab.ediaristas.web.dto.AlterarSenhaForm;
 import br.com.rickicollab.ediaristas.web.dto.UsuarioCadastroForm;
 import br.com.rickicollab.ediaristas.web.dto.UsuarioEdicaoForm;
+import br.com.rickicollab.ediaristas.web.interfaces.IconfirmacaoSenha;
 import br.com.rickicollab.ediaristas.web.mappers.WebUsuarioMapper;
 
 @Service
@@ -37,15 +38,7 @@ public class WebUsuarioService {
     }
 
     public Usuario cadastrar(UsuarioCadastroForm form) {
-        var senha = form.getSenha();
-        var confirmarSenha = form.getConfirmacaoSenha();
-        if (!senha.equals(confirmarSenha)) {
-            var message = "os campos de senha não conferem!";
-            @SuppressWarnings("null")
-            var fieldError = new FieldError(form.getClass().getName(), "confirmacaoSenha", form.getConfirmacaoSenha(),
-                    false, null, null, message);
-            throw new SenhasNaoConferemException(message, fieldError);
-        }
+        validarConfirmacaoSenhas(form);
 
         var model = mapper.toModel(form);
         var senhaHash = passwordEncoder.encode(model.getSenha());
@@ -95,17 +88,11 @@ public class WebUsuarioService {
     public void alterarSenha(AlterarSenhaForm form, String email) {
         var usuario = buscarPorEmail(email);
 
+        validarConfirmacaoSenhas(form);
+
         var senhaAtual = usuario.getSenha();
         var senhaAntiga = form.getSenhaAntiga();
         var senha = form.getSenha();
-        var confirmacaoSenha = form.getConfirmacaoSenha();
-        if (!senha.equals(confirmacaoSenha)) {
-            var message = "os campos de senha não conferem!";
-            @SuppressWarnings("null")
-            var fieldError = new FieldError(form.getClass().getName(), "confirmacaoSenha", form.getConfirmacaoSenha(),
-                    false, null, null, message);
-            throw new SenhasNaoConferemException(message, fieldError);
-        }
 
         if (!passwordEncoder.matches(senhaAntiga, senhaAtual)) {
             var message = "A senha antiga está incorreta!";
@@ -128,5 +115,18 @@ public class WebUsuarioService {
                     null, message);
             throw new UsuarioJaCadastradoException(message, fieldError);
         }
+    }
+
+    private void validarConfirmacaoSenhas(IconfirmacaoSenha obj) {
+        var senha = obj.getSenha();
+        var confirmacaoSenha = obj.getConfirmacaoSenha();
+        if (!senha.equals(confirmacaoSenha)) {
+            var message = "os campos de senha não conferem!";
+            @SuppressWarnings("null")
+            var fieldError = new FieldError(obj.getClass().getName(), "confirmacaoSenha", obj.getConfirmacaoSenha(),
+                    false, null, null, message);
+            throw new SenhasNaoConferemException(message, fieldError);
+        }
+
     }
 }

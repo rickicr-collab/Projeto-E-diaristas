@@ -1,5 +1,6 @@
 package br.com.rickicollab.ediaristas.web.dto;
 
+import br.com.rickicollab.ediaristas.web.interfaces.IconfirmacaoSenha;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -9,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class AlterarSenhaForm {
+public class AlterarSenhaForm implements IconfirmacaoSenha {
 
     @NotNull
     @NotEmpty
