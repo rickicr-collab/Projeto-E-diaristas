@@ -1,5 +1,6 @@
 package br.com.rickicollab.ediaristas.web.dto;
 
+import br.com.rickicollab.ediaristas.web.interfaces.IconfirmacaoSenha;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -11,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UsuarioCadastroForm {
+public class UsuarioCadastroForm implements IconfirmacaoSenha {
 
     @NotNull
     @Size(min = 1, max = 255)
