@@ -1,5 +1,7 @@
 package br.com.rickicollab.ediaristas.web.controllers;
 
+import java.security.Principal;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -12,12 +14,12 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.com.rickicollab.ediaristas.core.exceptions.ValidacaoException;
+import br.com.rickicollab.ediaristas.web.dto.AlterarSenhaForm;
 import br.com.rickicollab.ediaristas.web.dto.FlashMessage;
 import br.com.rickicollab.ediaristas.web.dto.UsuarioCadastroForm;
 import br.com.rickicollab.ediaristas.web.dto.UsuarioEdicaoForm;
 import br.com.rickicollab.ediaristas.web.services.WebUsuarioService;
 import jakarta.validation.Valid;
-
 
 @Controller
 @RequestMapping("/admin/usuarios")
@@ -27,33 +29,32 @@ public class UsuarioController {
     private WebUsuarioService webUsuarioService;
 
     @GetMapping
-    public ModelAndView buscarTodos(){
+    public ModelAndView buscarTodos() {
         var mav = new ModelAndView("admin/usuario/lista");
         mav.addObject("usuarios", webUsuarioService.buscarTodos());
         return mav;
     }
 
     @GetMapping("/cadastrar")
-    public ModelAndView cadastrar(){
+    public ModelAndView cadastrar() {
         var mav = new ModelAndView("admin/usuario/cadastro-form");
         mav.addObject("cadastroForm", new UsuarioCadastroForm());
         return mav;
     }
-    
+
     @GetMapping("/{id}/editar")
-    public ModelAndView editar(@PathVariable long id){
+    public ModelAndView editar(@PathVariable long id) {
         var mav = new ModelAndView("admin/usuario/edicao-form");
         mav.addObject("edicaoForm", webUsuarioService.buscarFormPorId(id));
-        return  mav;
-       
+        return mav;
 
     }
 
-
     @SuppressWarnings("null")
     @PostMapping("/cadastrar")
-    public String cadastrar(@Valid @ModelAttribute("cadastroForm") UsuarioCadastroForm cadastroForm, BindingResult result, RedirectAttributes attrs){
-        if(result.hasErrors()){
+    public String cadastrar(@Valid @ModelAttribute("cadastroForm") UsuarioCadastroForm cadastroForm,
+            BindingResult result, RedirectAttributes attrs) {
+        if (result.hasErrors()) {
             return "admin/usuario/cadastro-form";
         }
         try {
@@ -66,31 +67,53 @@ public class UsuarioController {
         return "redirect:/admin/usuarios";
     }
 
-
-
     @GetMapping("/{id}/excluir")
-    public String excluir(@PathVariable long id, RedirectAttributes attrs){
+    public String excluir(@PathVariable long id, RedirectAttributes attrs) {
         webUsuarioService.excluirPorId(id);
         attrs.addFlashAttribute("alert", new FlashMessage("alert-success", "Usuario excluido com sucesso ! "));
         return "redirect:/admin/usuarios";
     }
 
-
     @SuppressWarnings("null")
     @PostMapping("/{id}/editar")
-    public String editar(@PathVariable long id, @Valid @ModelAttribute("edicaoForm") UsuarioEdicaoForm edicaoForm, BindingResult result, RedirectAttributes attrs){
-        if(result.hasErrors()){
-            return"admin/usuario/edicao-form";
+    public String editar(@PathVariable long id, @Valid @ModelAttribute("edicaoForm") UsuarioEdicaoForm edicaoForm,
+            BindingResult result, RedirectAttributes attrs) {
+        if (result.hasErrors()) {
+            return "admin/usuario/edicao-form";
         }
         try {
             webUsuarioService.editar(edicaoForm, id);
             attrs.addFlashAttribute("alert", new FlashMessage("alert-success", "Usuario editado com sucesso !"));
         } catch (ValidacaoException e) {
-           result.addError(e.getFieldError());
-           return "admin/usuario/edicao-form";
+            result.addError(e.getFieldError());
+            return "admin/usuario/edicao-form";
         }
         return "redirect:/admin/usuarios";
     }
-    
+
+    @GetMapping("/alterar-senha")
+    public ModelAndView alterarSenha() {
+        var mov = new ModelAndView("admin/usuario/alterar-senha");
+        mov.addObject("alterarSenhaForm", new AlterarSenhaForm());
+        return mov;
+    }
+
+    @PostMapping("/alterar-senha")
+    public String alterarSenha(@Valid @ModelAttribute("alterarSenhaForm") AlterarSenhaForm alterarSenhaForm,
+            BindingResult result, RedirectAttributes attrs, Principal principal) {
+                if(result.hasErrors()){
+                    return "admin/usuario/alterar-senha";
+                }
+                try {
+                    webUsuarioService.alterarSenha(alterarSenhaForm, principal.getName());
+                    attrs.addFlashAttribute("alert", new FlashMessage("alert-success", "senha Alterada com sucesso!"));
+                } catch (ValidacaoException e) {
+                    result.addError(e.getFieldError());
+                    return "admin/usuario/alterar-senha";
+                }
+
+        return "redirect:/admin/usuarios/alterar-senha";
+
+    }
 
 }
