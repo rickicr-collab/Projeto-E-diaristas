@@ -1,0 +1,22 @@
+CREATE TABLE `servico` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `horas_banheiro` int NOT NULL,
+  `horas_cozinha` int NOT NULL,
+  `horas_outros` int NOT NULL,
+  `has_quarto` int NOT NULL,
+  `horas_quintal` int NOT NULL,
+  `horas_sala` int NOT NULL,
+  `icone` enum('TWF_CLEANING_1','TWF_CLEANING_2','TWF_CLEANING_3') NOT NULL,
+  `nome` varchar(50) NOT NULL,
+  `porcentagem_comissao` decimal(38,2) NOT NULL,
+  `posicao` int NOT NULL,
+  `qtd_horas` int NOT NULL,
+  `valor_banheiro` decimal(38,2) NOT NULL,
+  `valor_cozinha` decimal(38,2) NOT NULL,
+  `valor_minimo` decimal(38,2) NOT NULL,
+  `valor_outros` decimal(38,2) NOT NULL,
+  `valor_quarto` decimal(38,2) NOT NULL,
+  `valor_quintal` decimal(38,2) NOT NULL,
+  `valor_sala` decimal(38,2) NOT NULL,
+  PRIMARY KEY (`id`)
+);
