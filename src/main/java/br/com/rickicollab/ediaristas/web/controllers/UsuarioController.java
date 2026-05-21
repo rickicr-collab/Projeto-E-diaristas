@@ -50,7 +50,7 @@ public class UsuarioController {
 
     }
 
-    @SuppressWarnings("null")
+    
     @PostMapping("/cadastrar")
     public String cadastrar(@Valid @ModelAttribute("cadastroForm") UsuarioCadastroForm cadastroForm,
             BindingResult result, RedirectAttributes attrs) {
@@ -74,7 +74,7 @@ public class UsuarioController {
         return "redirect:/admin/usuarios";
     }
 
-    @SuppressWarnings("null")
+    
     @PostMapping("/{id}/editar")
     public String editar(@PathVariable long id, @Valid @ModelAttribute("edicaoForm") UsuarioEdicaoForm edicaoForm,
             BindingResult result, RedirectAttributes attrs) {

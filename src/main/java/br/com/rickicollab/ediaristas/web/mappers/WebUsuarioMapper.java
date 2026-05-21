@@ -8,7 +8,6 @@ import br.com.rickicollab.ediaristas.core.models.Usuario;
 import br.com.rickicollab.ediaristas.web.dto.UsuarioCadastroForm;
 import br.com.rickicollab.ediaristas.web.dto.UsuarioEdicaoForm;
 
-
 @Mapper(componentModel = "spring")
 public interface WebUsuarioMapper {
 

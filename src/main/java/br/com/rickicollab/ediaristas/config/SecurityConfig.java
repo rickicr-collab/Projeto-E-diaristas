@@ -75,7 +75,12 @@ public class SecurityConfig {
                 .rememberMeParameter("lembrar-me")
                 .tokenValiditySeconds(rememberMeValiditySeconds)/* 2 dias */
         );
+
+        http.cors();
+        
         return http.build();
     }
+
+    
 
 }
