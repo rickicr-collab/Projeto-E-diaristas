@@ -68,7 +68,7 @@ public class WebUsuarioService {
         return usuarioForm;
     }
 
-    @SuppressWarnings("null")
+   
     public void excluirPorId(long id) {
         var usuarioBuscado = buscarPorId(id);
         repository.delete(usuarioBuscado);
@@ -110,7 +110,6 @@ public class WebUsuarioService {
     private void validacaoCamposUnicos(Usuario usuario) {
         if (repository.isEmailJaCadastrado(usuario.getEmail(), usuario.getId())) {
             var message = "O email já existe cadastrado a outro usuário!";
-            @SuppressWarnings("null")
             var fieldError = new FieldError(usuario.getClass().getName(), "email", usuario.getEmail(), false, null,
                     null, message);
             throw new UsuarioJaCadastradoException(message, fieldError);
@@ -122,7 +121,6 @@ public class WebUsuarioService {
         var confirmacaoSenha = obj.getConfirmacaoSenha();
         if (!senha.equals(confirmacaoSenha)) {
             var message = "os campos de senha não conferem!";
-            @SuppressWarnings("null")
             var fieldError = new FieldError(obj.getClass().getName(), "confirmacaoSenha", obj.getConfirmacaoSenha(),
                     false, null, null, message);
             throw new SenhasNaoConferemException(message, fieldError);

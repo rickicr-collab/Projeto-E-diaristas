@@ -1,0 +1,55 @@
+package br.com.rickicollab.ediaristas.core.services.email.providers;
+
+import java.io.UnsupportedEncodingException;
+
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.stereotype.Service;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
+
+import br.com.rickicollab.ediaristas.core.services.email.adapters.EmailService;
+import br.com.rickicollab.ediaristas.core.services.email.dtos.EmailParams;
+import br.com.rickicollab.ediaristas.core.services.email.exceptions.EmailServiceException;
+import jakarta.mail.MessagingException;
+
+@Service
+public class JavaMailService implements EmailService {
+
+   
+    private final JavaMailSender mailSender;
+
+    
+    private final TemplateEngine templateEngine;
+
+    public JavaMailService(JavaMailSender mailSender, TemplateEngine templateEngine) {
+    this.mailSender = mailSender;
+    this.templateEngine = templateEngine;
+}
+
+    @Override
+    public void enviarEmailComTemplateHtml(EmailParams params) {
+        var mimeMessage = mailSender.createMimeMessage();
+        var mimeMessageHelper = new MimeMessageHelper(mimeMessage);
+
+        var context = new Context();
+        context.setVariables(params.getProps());
+
+        var html = templateEngine.process(params.getTemplate(), context);
+
+        try {
+            mimeMessageHelper.setFrom("nao-responda@ediaristas.com", "E-Diaristas");
+            mimeMessageHelper.setTo(params.getDestinatario());
+            mimeMessageHelper.setSubject(params.getAssunto());
+            mimeMessageHelper.setText(html, true);
+        } catch (UnsupportedEncodingException exception) {
+            throw new EmailServiceException(exception.getLocalizedMessage());
+        } catch (MessagingException exception) {
+            throw new EmailServiceException(exception.getLocalizedMessage());
+        }
+
+        mailSender.send(mimeMessage);
+    }
+
+    
+}
